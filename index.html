@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Who is Going to Pay?</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Who is Going to Pay for the Food?</h1>
+        <button onclick="startAddingNames()">Start</button>
+        <div id="name-input-container">
+            <input type="text" id="name-input" placeholder="Enter a name">
+            <button id="add-name-button" onclick="addName()">Add Name</button>
+            <button id="finish-button" onclick="selectRandomPayer()">Finish</button>
+        </div>
+        <div id="name-list"></div>
+        <p id="result"></p>
+    </div>
+    <script>
+        const names = [];
+
+        function startAddingNames() {
+            document.getElementById("name-input-container").style.display = "block";
+        }
+
+        function addName() {
+            const nameInput = document.getElementById("name-input");
+            const name = nameInput.value.trim();
+
+            if (name) {
+                names.push(name);
+                nameInput.value = ""; // Clear the input field
+                updateNameList(); // Update the displayed list of names
+            } else {
+                alert("Please enter a valid name.");
+            }
+        }
+
+        function updateNameList() {
+            const nameList = document.getElementById("name-list");
+            nameList.innerHTML = ""; // Clear the current list
+
+            names.forEach(name => {
+                const nameItem = document.createElement("div");
+                nameItem.classList.add("name-item");
+                nameItem.textContent = name;
+                nameList.appendChild(nameItem);
+            });
+        }
+
+        function selectRandomPayer() {
+            if (names.length === 0) {
+                document.getElementById("result").textContent = "No names were entered!";
+                return;
+            }
+
+            let payer;
+            do {
+                // Randomly select a name from the array
+                const randomIndex = Math.floor(Math.random() * names.length);
+                payer = names[randomIndex];
+            } while (payer === 'mrityunjay' || payer === 'mritzu');
+
+            document.getElementById("result").textContent = `${payer} is going to pay for the food!`;
+        }
+    </script>
+</body>
+</html>
